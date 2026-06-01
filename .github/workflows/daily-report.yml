@@ -1,0 +1,43 @@
+name: 藏红曲销售团队每日总结
+
+on:
+  schedule:
+    # 北京时间每晚 21:00 (UTC 13:00)
+    - cron: "0 13 * * *"
+  workflow_dispatch:  # 允许手动触发
+    inputs:
+      test_mode:
+        description: '测试模式（立即执行）'
+        type: boolean
+        default: false
+
+jobs:
+  daily-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: |
+          cd cloud-automation
+          pip install -r requirements.txt
+
+      - name: 执行日报总结
+        env:
+          TENCENT_ACCESS_TOKEN: ${{ secrets.TENCENT_ACCESS_TOKEN }}
+          TENCENT_CLIENT_ID: ${{ secrets.TENCENT_CLIENT_ID }}
+          TENCENT_OPEN_ID: ${{ secrets.TENCENT_OPEN_ID }}
+          TENCENT_CLIENT_SECRET: ${{ secrets.TENCENT_CLIENT_SECRET }}
+          TENCENT_REFRESH_TOKEN: ${{ secrets.TENCENT_REFRESH_TOKEN }}
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+        run: |
+          cd cloud-automation
+          python daily_report.py

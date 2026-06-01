@@ -1,0 +1,4 @@
+# 藏红曲销售日报自动化 — 依赖
+# 安装: pip install -r requirements.txt
+
+requests>=2.28.0

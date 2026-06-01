@@ -151,10 +151,11 @@ def read_sheet(file_id: str, sheet_id: str, range_str: str) -> list:
     resp.raise_for_status()
     data = resp.json()
 
-    if data.get("ret") != 0:
-        raise Exception(f"API 错误 [{data.get('ret')}]: {data.get('msg')}")
+    # API v3 直接返回 gridData，不含 ret/data 包装层
+    if "gridData" not in data:
+        raise Exception(f"API 响应异常: {json.dumps(data, ensure_ascii=False)[:300]}")
 
-    return data["data"]["gridData"]["rows"]
+    return data["gridData"]["rows"]
 
 
 def read_daily_report() -> list:

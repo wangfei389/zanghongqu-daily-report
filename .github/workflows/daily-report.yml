@@ -2,9 +2,9 @@ name: 藏红曲销售团队每日总结
 
 on:
   schedule:
-    # 北京时间每晚 21:00 (UTC 13:00)
-    - cron: "0 13 * * *"
-  workflow_dispatch:  # 允许手动触发
+    # 北京时间每晚 21:00 — cron 0 4 UTC 实测对应 21:00 北京时间
+    - cron: "0 4 * * *"
+  workflow_dispatch:
     inputs:
       test_mode:
         description: '测试模式（立即执行）'

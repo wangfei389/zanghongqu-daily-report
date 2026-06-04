@@ -2,8 +2,9 @@ name: 藏红曲销售团队每日总结
 
 on:
   schedule:
-    # 北京时间每晚 21:00 — cron 0 4 UTC 实测对应 21:00 北京时间
-    - cron: "0 4 * * *"
+    # GitHub Actions cron 存在批量延迟（~9h），实际触发约 UTC 22:15（北京次日 06:15）
+    # 精准 21:00 推送由 WorkBuddy 自动化负责
+    - cron: "0 13 * * *"
   workflow_dispatch:
     inputs:
       test_mode:
